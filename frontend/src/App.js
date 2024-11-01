@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   BrowserRouter as Router,
   Route,
@@ -9,25 +9,40 @@ import Login from "./Pages/Login";
 import "./App.css";
 
 function App() {
+  const isAuthenticated = () => {
+    return localStorage.getItem("token") !== null;
+  };
+
+  useEffect(() => {
+    if (!isAuthenticated() && window.location.pathname !== "/login") {
+      window.location.href = "/login";
+    }
+  }, []);
+
   return (
     <div className="App">
       <Router>
         <Routes>
-          {/* default redirect to login */}
+          {/* redirect to login */}
           <Route path="/" element={<Navigate to="/login" replace />} />
 
-          {/* login path */}
+          {/* login route */}
           <Route path="/login" element={<Login />} />
 
-          {/* 404 */}
+          {/* Drone route */}
           <Route
-            path="*"
+            path="/drone"
             element={
-              <div>
-                <h1>404 - Page Not Found</h1>
-              </div>
+              isAuthenticated() ? (
+                (window.location.href = "http://localhost:3000/drone")
+              ) : (
+                <Navigate to="/login" replace />
+              )
             }
           />
+
+          {/* redirect all to login */}
+          <Route path="*" element={<Navigate to="/login" replace />} />
         </Routes>
       </Router>
     </div>
