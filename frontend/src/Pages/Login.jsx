@@ -18,7 +18,7 @@ const Login = () => {
     setIsLoading(true);
 
     try {
-      const endpoint = isLogin ? '/login' : '/signup';
+      const endpoint = isLogin ? 'https://ml.grace-su.com/login' : 'https://ml.grace-su.com/signup';
       
       console.log('Sending request to:', endpoint);
       console.log('Request data:', formData);
@@ -41,7 +41,7 @@ const Login = () => {
             // Store token if needed
             localStorage.setItem('token', data.token);
             // Redirect to drone page
-            window.location.href = 'http://localhost:3000/drone';
+            window.location.href = 'https://ml.grace-su.com/demo';
           } else {
             setMessage('Login successful');
           }
@@ -87,7 +87,7 @@ const Login = () => {
   return (
     <div className="login-container">
       <div className="login-box">
-        <h1 className="login-title">Welcome to Drone Control System</h1>
+        <h1 className="login-title">Welcome to Sketch to Art</h1>
         
         <div className="tab-buttons">
           <button 
