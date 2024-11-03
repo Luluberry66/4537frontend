@@ -29,12 +29,12 @@ function App() {
           {/* login route */}
           <Route path="/login" element={<Login />} />
 
-          {/* Drone route */}
+          {/* Demo route */}
           <Route
-            path="/drone"
+            path="/demo"
             element={
               isAuthenticated() ? (
-                (window.location.href = "/")
+                (window.location.href = "/demo")
               ) : (
                 <Navigate to="/login" replace />
               )
