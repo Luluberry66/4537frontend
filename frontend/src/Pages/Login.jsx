@@ -140,7 +140,7 @@ const Login = () => {
               required
               autoComplete={isLogin ? "current-password" : "new-password"}
               disabled={isLoading}
-              minLength="6"
+              minLength="3"
             />
           </div>
 
