@@ -40,9 +40,7 @@ const Login = () => {
           if (data.token) {
             // Store token if needed
             localStorage.setItem('token', data.token);
-            // store token in cookies for https://ml.grace-su.com/
-            document.cookie = `token=${data.token}; domain=.grace-su.com; path=/; secure; samesite=strict`;
-            // Redirect to drone page
+            // Redirect to demo page
             window.location.href = 'https://ml.grace-su.com/demo';
           } else {
             setMessage('Login successful');
