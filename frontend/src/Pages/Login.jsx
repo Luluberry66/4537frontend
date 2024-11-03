@@ -41,7 +41,7 @@ const Login = () => {
             // Store token if needed
             localStorage.setItem('token', data.token);
             // Redirect to demo page
-            window.location.href = 'https://ml.grace-su.com/demo';
+            window.location.href = '/';
           } else {
             setMessage('Login successful');
           }

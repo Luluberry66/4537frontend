@@ -34,7 +34,7 @@ function App() {
             path="/drone"
             element={
               isAuthenticated() ? (
-                (window.location.href = "https://ml.grace-su.com/demo")
+                (window.location.href = "/")
               ) : (
                 <Navigate to="/login" replace />
               )
