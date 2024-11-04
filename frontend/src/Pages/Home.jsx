@@ -1,35 +1,30 @@
-import React, { useState, useEffect } from 'react';
-import './Home.css';
+import React, { useState, useEffect } from "react";
+import "./Home.css";
 
-const Home = () => {
+const Home = ({ onLogout }) => {
   const [userData, setUserData] = useState(null);
   const [isAdmin, setIsAdmin] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    const token = localStorage.getItem('token');
-    const userEmail = localStorage.getItem('userEmail');
-    const userRole = localStorage.getItem('userRole');
+    const token = localStorage.getItem("token");
+    const userEmail = localStorage.getItem("userEmail");
+    const userRole = localStorage.getItem("userRole");
 
     if (!token || !userEmail) {
-      window.location.href = '/login';
+      window.location.href = "/login";
       return;
     }
 
-    const isAdminUser = userEmail === 'admin@admin.com';
+    const isAdminUser = userEmail === "admin@admin.com";
 
     setUserData({
       email: userEmail,
-      role: isAdminUser ? 'admin' : 'user'
+      role: isAdminUser ? "admin" : "user",
     });
     setIsAdmin(isAdminUser);
-  setIsLoading(false);
+    setIsLoading(false);
   }, []);
-
-  const handleLogout = () => {
-    localStorage.clear();
-    window.location.href = '/login';
-  };
 
   if (isLoading) {
     return <div>Loading...</div>;
@@ -43,7 +38,9 @@ const Home = () => {
           <span className="user-email">
             {userData?.email} ({userData?.role.toUpperCase()})
           </span>
-          <button onClick={handleLogout} className="logout-btn">Logout</button>
+          <button onClick={onLogout} className="logout-btn">
+            Logout
+          </button>
         </div>
       </nav>
 
@@ -54,16 +51,16 @@ const Home = () => {
         </div>
 
         <div className="navigation-cards">
-          <div 
-            className="card" 
-            onClick={() => window.location.href = 'https://ml.grace-su.com/demo'}
+          <div
+            className="card"
+            onClick={() => (window.location.href = "https://ml.grace-su.com/demo")}
           >
             <h2>Demo</h2>
             <p>Try our ML drone demo</p>
           </div>
-          <div 
-            className="card" 
-            onClick={() => window.location.href = 'https://ml.grace-su.com/gallery'}
+          <div
+            className="card"
+            onClick={() => (window.location.href = "https://ml.grace-su.com/gallery")}
           >
             <h2>Gallery</h2>
             <p>View saved drone paths</p>
