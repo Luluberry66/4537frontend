@@ -18,10 +18,9 @@ const Login = () => {
     setIsLoading(true);
 
     try {
-      const endpoint = isLogin ? 'https://ml.grace-su.com/login' : 'https://ml.grace-su.com/signup';
+      const endpoint = `https://ml.grace-su.com/${isLogin ? 'login' : 'signup'}`;
       
       console.log('Sending request to:', endpoint);
-      console.log('Request data:', formData);
 
       const response = await fetch(endpoint, {
         method: 'POST',
@@ -29,25 +28,26 @@ const Login = () => {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify(formData),
-        credentials: 'include',
+        credentials: 'include'
       });
 
       const data = await response.json();
-      console.log('Response:', data);
 
       if (response.ok) {
         if (isLogin) {
           if (data.token) {
-            // Store token if needed
+            // 存储用户信息
+            const isAdmin = formData.email === 'admin@admin.com';
+
             localStorage.setItem('token', data.token);
-            // Redirect to demo page
-            window.location.href = '/demo';
-          } else {
-            setMessage('Login successful');
+            localStorage.setItem('userEmail', formData.email);
+            localStorage.setItem('userRole', isAdmin ? 'admin' : 'user'); 
+            
+            // 直接使用 window.location.href 进行跳转
+            window.location.href = '/home';
           }
         } else {
-          setMessage(data.message || 'Signup successful');
-          // If signup successful, switch to login form after delay
+          setMessage('Signup successful');
           setTimeout(() => {
             setIsLogin(true);
             setFormData({ email: '', password: '' });
@@ -63,25 +63,6 @@ const Login = () => {
     } finally {
       setIsLoading(false);
     }
-  };
-
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    // Remove any potentially harmful characters
-    const sanitizedValue = value.replace(/[<>]/g, '');
-    setFormData(prevState => ({
-      ...prevState,
-      [name]: sanitizedValue
-    }));
-  };
-
-  const validateEmail = (email) => {
-    const re = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
-    return re.test(email);
-  };
-
-  const isFormValid = () => {
-    return formData.email && formData.password && validateEmail(formData.email);
   };
 
   return (
@@ -120,12 +101,10 @@ const Login = () => {
               type="email"
               name="email"
               value={formData.email}
-              onChange={handleInputChange}
+              onChange={(e) => setFormData({ ...formData, email: e.target.value })}
               placeholder="Email"
               className="form-input"
               required
-              autoComplete="username"
-              disabled={isLoading}
             />
           </div>
 
@@ -134,13 +113,10 @@ const Login = () => {
               type="password"
               name="password"
               value={formData.password}
-              onChange={handleInputChange}
+              onChange={(e) => setFormData({ ...formData, password: e.target.value })}
               placeholder="Password"
               className="form-input"
               required
-              autoComplete={isLogin ? "current-password" : "new-password"}
-              disabled={isLoading}
-              minLength="3"
             />
           </div>
 
@@ -158,7 +134,7 @@ const Login = () => {
           <button 
             type="submit" 
             className="submit-button"
-            disabled={!isFormValid() || isLoading}
+            disabled={isLoading}
           >
             {isLoading ? 'Processing...' : (isLogin ? 'Login' : 'Sign Up')}
           </button>
