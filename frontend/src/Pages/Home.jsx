@@ -9,7 +9,6 @@ const Home = ({ onLogout }) => {
   useEffect(() => {
     const token = localStorage.getItem("token");
     const userEmail = localStorage.getItem("userEmail");
-    const userRole = localStorage.getItem("userRole");
 
     if (!token || !userEmail) {
       window.location.href = "/login";
